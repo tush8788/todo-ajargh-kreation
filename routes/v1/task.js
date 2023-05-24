@@ -12,4 +12,7 @@ router.post('/create',passport.authenticate('jwt',{session:false}),taskControlle
 //update task
 router.put('/:id',passport.authenticate('jwt',{session:false}),taskController.updateTask);
 
+//delete task
+router.delete('/:id',passport.authenticate('jwt',{session:false}),taskController.deleteTask);
+
 module.exports = router;

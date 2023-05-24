@@ -101,3 +101,39 @@ module.exports.updateTask = async function (req, res) {
         })
     }
 }
+
+//delete task
+module.exports.deleteTask = async function (req, res) {
+    try {
+
+        // find task and delete 
+        let task = await TaskDB.findById(req.params.id);
+        
+        //if task not found or task user or req user is diff
+        if (!task || task.user != req.user.id) {
+            return res.status(404).json({
+                message: "Unauthorize to delete task or task not found"
+            })
+        }
+        
+        //delete task
+        await task.deleteOne();
+
+        return res.status(200).json({
+            message: "Task delete successfully",
+        })
+    }
+    catch (err) {
+        console.log(err);
+        let statusCode = 500, message = "Internal Server Error";
+        // Wrong Task id send
+        if (err.name == "CastError") {
+            statusCode = 403;
+            message = "Wrong Task id send"
+        }
+
+        return res.status(statusCode).json({
+            message: message
+        })
+    }
+}
