@@ -9,4 +9,7 @@ router.get('/',passport.authenticate('jwt',{session:false}),taskController.getAl
 //create task
 router.post('/create',passport.authenticate('jwt',{session:false}),taskController.createTask);
 
+//update task
+router.put('/:id',passport.authenticate('jwt',{session:false}),taskController.updateTask);
+
 module.exports = router;
